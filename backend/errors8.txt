@@ -1,0 +1,81 @@
+﻿.\gradlew : C:\Users\HP\Downloads\JUSPAY Project
+\backend\src\main\java\com\juspay\backend\securi
+ty\SecurityConfig.java:46: error: constructor 
+DaoAuthenticationProvider in class 
+DaoAuthenticationProvider cannot be applied to 
+given types;
+At line:1 char:1
++ .\gradlew compileJava --console=plain > 
+build-errors.txt 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (C: 
+   \Users\HP\Dow...to given types;:String) [],  
+   RemoteException
+    + FullyQualifiedErrorId : NativeCommandErro 
+   r
+ 
+        DaoAuthenticationProvider authProvider 
+= new DaoAuthenticationProvider();
+                                                
+ ^
+  required: UserDetailsService
+  found:    no arguments
+  reason: actual and formal argument lists 
+differ in length
+C:\Users\HP\Downloads\JUSPAY Project\backend\src
+\main\java\com\juspay\backend\security\SecurityC
+onfig.java:47: error: cannot find symbol
+        authProvider.setUserDetailsService(userD
+etailsService);
+                    ^
+  symbol:   method 
+setUserDetailsService(UserDetailsServiceImpl)
+  location: variable authProvider of type 
+DaoAuthenticationProvider
+2 errors
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output 
+below.
+  C:\Users\HP\Downloads\JUSPAY Project\backend\s
+rc\main\java\com\juspay\backend\security\Securit
+yConfig.java:46: error: constructor 
+DaoAuthenticationProvider in class 
+DaoAuthenticationProvider cannot be applied to 
+given types;
+          DaoAuthenticationProvider 
+authProvider = new DaoAuthenticationProvider();
+                                                
+   ^
+    required: UserDetailsService
+    found:    no arguments
+    reason: actual and formal argument lists 
+differ in length
+  C:\Users\HP\Downloads\JUSPAY Project\backend\s
+rc\main\java\com\juspay\backend\security\Securit
+yConfig.java:47: error: cannot find symbol
+          authProvider.setUserDetailsService(use
+rDetailsService);
+                      ^
+    symbol:   method 
+setUserDetailsService(UserDetailsServiceImpl)
+    location: variable authProvider of type 
+DaoAuthenticationProvider
+  2 errors
+
+* Try:
+> Check your code and dependencies to fix the 
+compilation error(s)
+> Run with --scan to get full insights from a 
+Build Scan (powered by Develocity).
+
+BUILD FAILED in 5s
+
+> Task :compileJava FAILED
+
+[Incubating] Problems report is available at: file:///C:/Users/HP/Downloads/JUSPAY%20Project/backend/build/reports/problems/problems-report.html
+1 actionable task: 1 executed
