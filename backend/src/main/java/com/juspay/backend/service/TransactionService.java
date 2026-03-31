@@ -18,14 +18,12 @@ public class TransactionService {
     private final TransactionRepository transactionRepository;
     private final UserRepository userRepository;
     private final WalletRepository walletRepository;
-    private final KafkaProducerService kafkaProducerService;
 
     public TransactionService(TransactionRepository transactionRepository, UserRepository userRepository,
-                              WalletRepository walletRepository, KafkaProducerService kafkaProducerService) {
+                              WalletRepository walletRepository) {
         this.transactionRepository = transactionRepository;
         this.userRepository = userRepository;
         this.walletRepository = walletRepository;
-        this.kafkaProducerService = kafkaProducerService;
     }
 
     public Transaction initiateTransfer(String sourceEmail, TransactionRequest request) {
@@ -40,7 +38,7 @@ public class TransactionService {
 
         Wallet sourceWallet = walletRepository.findByUserId(sourceUser.getId())
                 .orElseThrow(() -> new RuntimeException("Source wallet not found"));
-        
+
         if (sourceWallet.getBalance().compareTo(request.getAmount()) < 0) {
             throw new RuntimeException("Insufficient balance");
         }
@@ -54,9 +52,19 @@ public class TransactionService {
         );
         transaction = transactionRepository.save(transaction);
 
-        kafkaProducerService.sendTransactionMessage(transaction.getId());
+        try {
+            sourceWallet.setBalance(sourceWallet.getBalance().subtract(request.getAmount()));
+            walletRepository.save(sourceWallet);
 
-        return transaction;
+            destWallet.setBalance(destWallet.getBalance().add(request.getAmount()));
+            walletRepository.save(destWallet);
+
+            transaction.setStatus(Transaction.TransactionStatus.COMPLETED);
+        } catch (Exception e) {
+            transaction.setStatus(Transaction.TransactionStatus.FAILED);
+        }
+
+        return transactionRepository.save(transaction);
     }
 
     public List<Transaction> getMyTransactions(String email) {

@@ -3,12 +3,16 @@ spring:
     name: payment-system
   data:
     mongodb:
-      uri: mongodb+srv://reksitrajan01:8n4SHiaJfCZRrimg@cluster0.mperr.mongodb.net/test?retryWrites=true&w=majority
+      uri: mongodb://localhost:27017/juspay
   kafka:
     bootstrap-servers: localhost:9092
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        max.block.ms: 2000
+        request.timeout.ms: 2000
+        delivery.timeout.ms: 5000
     consumer:
       group-id: payment-group
       auto-offset-reset: earliest
@@ -16,6 +20,10 @@ spring:
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
         spring.json.trusted.packages: "*"
+        session.timeout.ms: 10000
+        request.timeout.ms: 5000
+    listener:
+      auto-startup: false
   mail:
     host: smtp.gmail.com
     port: 587
@@ -27,6 +35,9 @@ spring:
           auth: true
           starttls:
             enable: true
+
+server:
+  port: 8080
 
 jwt:
   secret: 4261656C64756E6720536563726574204B657920466F72204A575420546F6B656E2047656E65726174696F6E
