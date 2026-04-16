@@ -108,6 +108,7 @@
   list-style: none;
   padding: 0;
   display: flex;
+  
   gap: 8px;
   margin: 32px 0 0;
 
@@ -165,7 +166,7 @@
   position: relative;
   width: 100%;
 
-  &::before,
+  &::before,   
   &::after {
     content: '';
     position: absolute;
@@ -173,11 +174,11 @@
     border: 5px solid transparent;
   }
 
-  &::before {
+  &::before {  
     left: 0;
     border-left-color: var(--border);
   }
-  &::after {
+  &::after {   
     right: 0;
     border-right-color: var(--border);
   }
